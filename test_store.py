@@ -12,5 +12,17 @@ TODO: Finish this test by...
 3) Validate the response codes and values
 4) Validate the response message "Order and pet status updated successfully"
 '''
-def test_patch_order_by_id():
-    pass
+
+@pytest.fxture
+def order_update_payload();
+return{
+    "petId":1,
+    "status":"approved"
+}
+def test_patch_order_by_id(order_update_payload):
+    order_id=1
+    test_endpoint = f"/store/order/{order_id}"
+    response=api_helpers.patch_api_data(test_endpoint,order_update_payload)
+    assert_that(response.status_code,is_(200))
+    body=response.json()
+    assert_that(body["message"],contains_string("Order and pet status updated successfully"))
